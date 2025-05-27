@@ -35,3 +35,10 @@ map("n", "'", "`")
 map("n", "#", "*NN")
 
 map("i", "<S-Tab>", "<C-c><<i")
+
+vim.cmd[[
+  augroup highlight_yank
+  autocmd!
+  au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
+  augroup END
+]]

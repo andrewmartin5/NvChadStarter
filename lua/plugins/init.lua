@@ -6,6 +6,34 @@ return {
   },
 
   {
+    "nvim-treesitter/nvim-treesitter",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    }
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    config = function()
+      require("nvim-treesitter.configs").setup {
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = "@class.inner",
+              ["as"] = "@local.scope"
+            },
+          },
+        },
+      }
+    end,
+  },
+
+  {
     "dundalek/lazy-lsp.nvim",
     lazy = false,
     dependencies = {
@@ -208,48 +236,6 @@ return {
       vim.keymap.set("n", "<leader>dt", dapui.toggle, { desc = "Toggle Dap UI" })
       vim.keymap.set("n", "<leader>do", function() dapui.open({ reset = true }) end, { desc = "Open Dap UI" })
       vim.keymap.set("n", "<leader>dx", dapui.close, { desc = "Close Dap UI" })
-
-      dap.adapters.gdb = {
-        type = "executable",
-        command = "gdb",
-        args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-      }
-
-      dap.configurations.c = {
-        {
-          name = "Launch",
-          type = "gdb",
-          request = "launch",
-          program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-          end,
-          cwd = "${workspaceFolder}",
-          stopAtBeginningOfMainSubprogram = false,
-        },
-        {
-          name = "Select and attach to process",
-          type = "gdb",
-          request = "attach",
-          program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-          end,
-          pid = function()
-            local name = vim.fn.input('Executable name (filter): ')
-            return require("dap.utils").pick_process({ filter = name })
-          end,
-          cwd = '${workspaceFolder}'
-        },
-        {
-          name = 'Attach to gdbserver :1234',
-          type = 'gdb',
-          request = 'attach',
-          target = 'localhost:1234',
-          program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-          end,
-          cwd = '${workspaceFolder}'
-        },
-      }
     end
   },
 
