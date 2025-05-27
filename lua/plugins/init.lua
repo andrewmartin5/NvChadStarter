@@ -56,6 +56,7 @@ return {
 
   {
     "nvim-telescope/telescope.nvim",
+    dependencies = { 'nvim-lua/plenary.nvim' },
     init = function()
       vim.keymap.set("n", "<leader>fp", "<cmd>Telescope commands<CR>", { desc = "telescope find commands" })
     end
@@ -63,6 +64,7 @@ return {
 
   {
     'nvim-telescope/telescope-ui-select.nvim',
+    lazy = false,
     config = function()
       local actions = require("telescope.actions")
       require("telescope").setup({
