@@ -9,3 +9,4 @@ opt.updatetime = 50
 opt.nu = true
 opt.relativenumber = true
 opt.termguicolors = true
+opt.formatoptions = "qj"

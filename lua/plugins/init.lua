@@ -10,14 +10,14 @@ return {
     lazy = false,
     dependencies = {
       "neovim/nvim-lspconfig",
-      {"VonHeikemen/lsp-zero.nvim", branch = "v3.x"},
+      { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/nvim-cmp",
     },
     config = function()
       local lsp_zero = require("lsp-zero")
 
-      lsp_zero.on_attach(function(client, bufnr)
+      lsp_zero.on_attach(function(_, bufnr)
         -- see :help lsp-zero-keybindings to learn the available actions
         lsp_zero.default_keymaps({
           buffer = bufnr,
@@ -27,11 +27,27 @@ return {
 
       require("lazy-lsp").setup {
         preferred_servers = {
-          python = {"pyright"},
-          nix = {"nixd"},
+          python = { "pyright" },
+          nix = { "nixd" },
+          lua = { "lua_ls" },
         },
         prefer_local = true,
+        configs = {
+          lua_ls = {
+            settings = {
+              Lua = {
+                diagnostics = {
+                  -- Get the language server to recognize the `vim` global
+                  globals = { "vim" },
+                },
+              },
+            },
+          },
+        },
       }
+
+      vim.keymap.set("n", "gn", function() vim.diagnostic.jump({ count = 1, float = true }) end, { desc = "Next error" })
+      vim.keymap.set("n", "gN", function() vim.diagnostic.jump({ count = -1, float = true}) end, { desc = "Previous error" })
     end,
   },
 
@@ -42,10 +58,10 @@ return {
 
   {
     "epwalsh/obsidian.nvim",
-    version = "*",  -- recommended, use latest release instead of latest commit
+    version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
     ft = "markdown",
-    dependencies = {"nvim-lua/plenary.nvim"},
+    dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       workspaces = {
         {
@@ -58,7 +74,7 @@ return {
 
   {
     "lervag/vimtex",
-    lazy=false,
+    lazy = false,
     init = function()
       -- VimTeX configuration goes here, e.g.
       vim.g.vimtex_view_method = "zathura"
@@ -72,15 +88,15 @@ return {
 
   {
     "kdheepak/lazygit.nvim",
-    lazy=true,
-    keys = {{ "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" }}
+    lazy = true,
+    keys = { { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit" } }
   },
 
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { 'nvim-lua/plenary.nvim' },
     init = function()
-      vim.keymap.set("n", "<leader>fp", "<cmd>Telescope commands<CR>", { desc = "telescope find commands" })
+      vim.keymap.set("n", "<leader>fp", "<cmd>Telescope commands<CR>", { desc = "Telescope find commands" })
     end
   },
 
@@ -148,11 +164,11 @@ return {
         },
         -- you can enable a preset for easier configuration
         presets = {
-          bottom_search = true, -- use a classic bottom cmdline for search
+          bottom_search = true,         -- use a classic bottom cmdline for search
           -- command_palette = true, -- position the cmdline and popupmenu together
           long_message_to_split = true, -- long messages will be sent to a split
-          inc_rename = false, -- enables an input dialog for inc-rename.nvim
-          lsp_doc_border = false, -- add a border to hover docs and signature help
+          inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+          lsp_doc_border = false,       -- add a border to hover docs and signature help
         },
       })
 
@@ -190,7 +206,7 @@ return {
       vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Set Breakpoint" })
       vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Dap Continue" })
       vim.keymap.set("n", "<leader>dt", dapui.toggle, { desc = "Toggle Dap UI" })
-      vim.keymap.set("n", "<leader>do", function() dapui.open({reset = true}) end, { desc = "Open Dap UI" })
+      vim.keymap.set("n", "<leader>do", function() dapui.open({ reset = true }) end, { desc = "Open Dap UI" })
       vim.keymap.set("n", "<leader>dx", dapui.close, { desc = "Close Dap UI" })
 
       dap.adapters.gdb = {
@@ -215,11 +231,11 @@ return {
           type = "gdb",
           request = "attach",
           program = function()
-             return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
           end,
           pid = function()
-             local name = vim.fn.input('Executable name (filter): ')
-             return require("dap.utils").pick_process({ filter = name })
+            local name = vim.fn.input('Executable name (filter): ')
+            return require("dap.utils").pick_process({ filter = name })
           end,
           cwd = '${workspaceFolder}'
         },
@@ -229,7 +245,7 @@ return {
           request = 'attach',
           target = 'localhost:1234',
           program = function()
-             return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
           end,
           cwd = '${workspaceFolder}'
         },
