@@ -5,11 +5,33 @@ return {
     opts = require "configs.conform",
   },
 
-  -- These are some examples, uncomment them if you want to see them work!
   {
-    "neovim/nvim-lspconfig",
+    "dundalek/lazy-lsp.nvim",
+    lazy = false,
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      {"VonHeikemen/lsp-zero.nvim", branch = "v3.x"},
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/nvim-cmp",
+    },
     config = function()
-      require "configs.lspconfig"
+      local lsp_zero = require("lsp-zero")
+
+      lsp_zero.on_attach(function(client, bufnr)
+        -- see :help lsp-zero-keybindings to learn the available actions
+        lsp_zero.default_keymaps({
+          buffer = bufnr,
+          preserve_mappings = false
+        })
+      end)
+
+      require("lazy-lsp").setup {
+        preferred_servers = {
+          python = {"pyright"},
+          nix = {"nixd"},
+        },
+        prefer_local = true,
+      }
     end,
   },
 
@@ -216,13 +238,5 @@ return {
   },
 
 
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+
 }

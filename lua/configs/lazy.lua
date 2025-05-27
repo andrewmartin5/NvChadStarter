@@ -14,6 +14,7 @@ return {
   performance = {
     rtp = {
       disabled_plugins = {
+        "mason",
         "2html_plugin",
         "tohtml",
         "getscript",
