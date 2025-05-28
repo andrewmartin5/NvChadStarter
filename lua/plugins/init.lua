@@ -39,8 +39,6 @@ return {
     dependencies = {
       "neovim/nvim-lspconfig",
       { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/nvim-cmp",
     },
     config = function()
       local lsp_zero = require("lsp-zero")
@@ -85,22 +83,6 @@ return {
   },
 
   {
-    "epwalsh/obsidian.nvim",
-    version = "*", -- recommended, use latest release instead of latest commit
-    lazy = true,
-    ft = "markdown",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-      workspaces = {
-        {
-          name = "Notes",
-          path = "~/Documents/Notes/",
-        },
-      },
-    },
-  },
-
-  {
     "lervag/vimtex",
     lazy = false,
     init = function()
@@ -129,7 +111,7 @@ return {
   },
 
   {
-    'nvim-telescope/telescope-ui-select.nvim',
+    "nvim-telescope/telescope-ui-select.nvim",
     lazy = false,
     config = function()
       local actions = require("telescope.actions")
