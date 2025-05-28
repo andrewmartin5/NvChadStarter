@@ -53,7 +53,7 @@ return {
 
       require("lazy-lsp").setup {
         preferred_servers = {
-          python = { "pyright" },
+          python = { "pyright", "ruff" },
           nix = { "nixd" },
           lua = { "lua_ls" },
         },
