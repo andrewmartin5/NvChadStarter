@@ -19,6 +19,7 @@ M.ui = {
   lsp = {
     signature = {
       focus = false,
+      focusable = false,
     }
   }
 }
