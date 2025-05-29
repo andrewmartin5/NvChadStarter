@@ -15,4 +15,12 @@ M.base46 = {
 	-- },
 }
 
+M.ui = {
+  lsp = {
+    signature = {
+      focusable = false,
+    }
+  }
+}
+
 return M
