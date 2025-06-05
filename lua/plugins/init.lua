@@ -221,6 +221,9 @@ return {
     end
   },
 
-
+  {
+    "karb94/neoscroll.nvim",
+    opts = {},
+  },
 
 }
